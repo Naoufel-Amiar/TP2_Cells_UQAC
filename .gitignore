@@ -1,0 +1,48 @@
+
+# ==========================================
+# TP2_Cells_UQAC - Git Ignore
+# ==========================================
+
+# CMake - fichiers de compilation
+build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Fichiers objets et bibliotheques
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+
+# Debug
+*.pdb
+*.ilk
+*.idb
+*.dSYM/
+*.gcda
+*.gcno
+
+# VS Code - configuration locale
+.vscode/
+
+# Fichiers temporaires
+*.tmp
+*.bak
+*~
+.DS_Store
+Thumbs.db
+
+# Rapports d'analyse memoire
+valgrind*.log
+asan*.log
