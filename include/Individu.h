@@ -1,19 +1,30 @@
+
 #ifndef INDIVIDU_H
 #define INDIVIDU_H
+
+// ==========================================
+// CLASSE GENERIQUE INDIVIDU<T>
+// ==========================================
 
 template<typename T>
 class Individu
 {
 private:
+    // Identifiant de l'individu
     int id_;
+
+    // Caracteristiques genetiques
     T valeur_;
 
-    // Liens non proprietaires vers les parents
+    // Pointeurs non proprietaires vers les parents
     Individu<T>* parent1_;
     Individu<T>* parent2_;
 
 public:
-    // Constructeur
+    // ======================================
+    // CONSTRUCTEUR
+    // ======================================
+
     Individu(
         int id,
         const T& valeur,
@@ -27,7 +38,10 @@ public:
     {
     }
 
-    // Accesseurs
+    // ======================================
+    // ACCESSEURS
+    // ======================================
+
     int getId() const
     {
         return id_;
@@ -48,7 +62,10 @@ public:
         return parent2_;
     }
 
-    // Modification des liens parentaux
+    // ======================================
+    // MODIFICATION DES PARENTS
+    // ======================================
+
     void setParent1(Individu<T>* parent)
     {
         parent1_ = parent;
@@ -59,7 +76,10 @@ public:
         parent2_ = parent;
     }
 
-    // Eviter les copies accidentelles
+    // ======================================
+    // INTERDICTION DE COPIE
+    // ======================================
+
     Individu(const Individu&) = delete;
 
     Individu& operator=(const Individu&) = delete;

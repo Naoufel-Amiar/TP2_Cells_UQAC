@@ -1,94 +1,137 @@
+
 #include <iostream>
-#include <sstream>
-#include <stdexcept>
 
 #include "ColorCell.h"
+#include "ChromoCell.h"
+#include "Individu.h"
 
 int main()
 {
     std::cout << "====================================\n";
-    std::cout << "  TP2 - TESTS COLORCELL\n";
+    std::cout << "  TP2 - TESTS INDIVIDU<T>\n";
     std::cout << "====================================\n";
 
-    // TEST 1 : Constructeur par defaut
-    std::cout << "\n=== TEST 1 : CONSTRUCTEUR ===\n";
+    // ======================================
+    // TEST 1 : INDIVIDUS SANS PARENTS
+    // ======================================
 
-    ColorCell celluleDefaut;
-    std::cout << "Cellule par defaut : "
-              << celluleDefaut << "\n";
+    std::cout << "\n=== TEST 1 : CREATION ===\n";
 
-    // TEST 2 : Addition
-    std::cout << "\n=== TEST 2 : ADDITION RGB ===\n";
+    Individu<ColorCell> individu1(
+        1, ColorCell(0, 0, 255)
+    );
 
-    ColorCell cellule1(0, 0, 255);
-    ColorCell cellule2(0, 255, 0);
+    Individu<ColorCell> individu2(
+        2, ColorCell(0, 255, 0)
+    );
 
-    ColorCell resultat = cellule1 + cellule2;
+    std::cout << "Individu "
+              << individu1.getId()
+              << " : "
+              << individu1.getValeur()
+              << "\n";
 
-    std::cout << "Cellule 1 : " << cellule1 << "\n";
-    std::cout << "Cellule 2 : " << cellule2 << "\n";
-    std::cout << "Resultat  : " << resultat << "\n";
+    std::cout << "Individu "
+              << individu2.getId()
+              << " : "
+              << individu2.getValeur()
+              << "\n";
 
-    if (resultat.getRouge() == 0 &&
-        resultat.getVert() == 127 &&
-        resultat.getBleu() == 127)
+    if (individu1.getParent1() == nullptr &&
+        individu1.getParent2() == nullptr)
     {
-        std::cout << "[OK] Addition RGB correcte\n";
+        std::cout << "[OK] Individu sans parents\n";
     }
     else
     {
-        std::cout << "[ERREUR] Addition RGB incorrecte\n";
+        std::cout << "[ERREUR] Parents incorrects\n";
     }
 
-    // TEST 3 : Modification RGB
-    std::cout << "\n=== TEST 3 : SET RGB ===\n";
+    // ======================================
+    // TEST 2 : CREATION D'UN DESCENDANT
+    // ======================================
 
-    celluleDefaut.setRGB(255, 128, 64);
+    std::cout << "\n=== TEST 2 : DESCENDANT ===\n";
 
-    std::cout << "Nouvelle valeur : "
-              << celluleDefaut << "\n";
+    ColorCell valeur3 =
+        individu1.getValeur() + individu2.getValeur();
 
-    // TEST 4 : Lecture depuis un flux texte
-    std::cout << "\n=== TEST 4 : LECTURE ===\n";
+    Individu<ColorCell> individu3(
+        3,
+        valeur3,
+        &individu1,
+        &individu2
+    );
 
-    std::istringstream flux("100 200 50");
-    ColorCell celluleLue;
+    std::cout << "Individu "
+              << individu3.getId()
+              << " : "
+              << individu3.getValeur()
+              << "\n";
 
-    if (flux >> celluleLue)
+    if (individu3.getParent1() == &individu1 &&
+        individu3.getParent2() == &individu2)
     {
-        std::cout << "[OK] Lecture : "
-                  << celluleLue << "\n";
+        std::cout << "[OK] Parents correctement lies\n";
     }
     else
     {
-        std::cout << "[ERREUR] Lecture impossible\n";
+        std::cout << "[ERREUR] Liens incorrects\n";
     }
 
-    // TEST 5 : Validation RGB
-    std::cout << "\n=== TEST 5 : VALEURS INVALIDES ===\n";
+    // ======================================
+    // TEST 3 : ACCES AUX PARENTS
+    // ======================================
 
-    try
+    std::cout << "\n=== TEST 3 : GENEALOGIE ===\n";
+
+    std::cout << "Parent 1 : "
+              << individu3.getParent1()->getId()
+              << "\n";
+
+    std::cout << "Parent 2 : "
+              << individu3.getParent2()->getId()
+              << "\n";
+
+    // ======================================
+    // TEST 4 : MODIFICATION D'UN PARENT
+    // ======================================
+
+    std::cout << "\n=== TEST 4 : MODIFICATION ===\n";
+
+    individu3.setParent1(nullptr);
+
+    if (individu3.getParent1() == nullptr &&
+        individu3.getParent2() == &individu2)
     {
-        ColorCell celluleInvalide(300, 0, 0);
-
-        std::cout << "[ERREUR] Valeur invalide acceptee\n";
+        std::cout << "[OK] Parent 1 devenu inconnu\n";
     }
-    catch (const std::out_of_range&)
+    else
     {
-        std::cout << "[OK] Valeur invalide refusee\n";
+        std::cout << "[ERREUR] Modification incorrecte\n";
     }
 
-    // TEST 6 : Valeurs limites
-    std::cout << "\n=== TEST 6 : LIMITES ===\n";
+    // ======================================
+    // TEST 5 : TYPE CHROMOCELL
+    // ======================================
 
-    ColorCell minimum(0, 0, 0);
-    ColorCell maximum(255, 255, 255);
+    std::cout << "\n=== TEST 5 : TEMPLATE CHROMOCELL ===\n";
 
-    std::cout << "Minimum : " << minimum << "\n";
-    std::cout << "Maximum : " << maximum << "\n";
+    Individu<ChromoCell> individuChromo(
+        1,
+        ChromoCell("AB", "CD", "EF", "GH")
+    );
+
+    std::cout << "Individu "
+              << individuChromo.getId()
+              << " : "
+              << individuChromo.getValeur()
+              << "\n";
+
+    std::cout << "[OK] Template compatible ChromoCell\n";
 
     std::cout << "\n====================================\n";
-    std::cout << "  FIN DES TESTS COLORCELL\n";
+    std::cout << "  FIN DES TESTS INDIVIDU<T>\n";
     std::cout << "====================================\n";
 
     return 0;
