@@ -1,73 +1,89 @@
-#include "ColorCell.h"
+
+#include "ChromoCell.h"
+
 #include <stdexcept>
 
 // ==========================================
 // CONSTRUCTEURS
 // ==========================================
 
-ColorCell::ColorCell()
-    : rouge_(0), vert_(0), bleu_(0)
+ChromoCell::ChromoCell()
+    : paires_{"AA", "AA", "AA", "AA"}
 {
 }
 
-ColorCell::ColorCell(int rouge, int vert, int bleu)
-    : rouge_(0), vert_(0), bleu_(0)
+ChromoCell::ChromoCell(
+    const std::string& paire1,
+    const std::string& paire2,
+    const std::string& paire3,
+    const std::string& paire4
+)
 {
-    setRGB(rouge, vert, bleu);
+    setPaires({paire1, paire2, paire3, paire4});
 }
 
 // ==========================================
 // ACCESSEURS
 // ==========================================
 
-int ColorCell::getRouge() const
+const std::array<std::string, 4>&
+ChromoCell::getPaires() const
 {
-    return rouge_;
-}
-
-int ColorCell::getVert() const
-{
-    return vert_;
-}
-
-int ColorCell::getBleu() const
-{
-    return bleu_;
+    return paires_;
 }
 
 // ==========================================
 // MODIFICATION ET VALIDATION
 // ==========================================
 
-void ColorCell::setRGB(int rouge, int vert, int bleu)
+void ChromoCell::setPaires(
+    const std::array<std::string, 4>& paires
+)
 {
-    if (rouge < 0 || rouge > 255 ||
-        vert < 0 || vert > 255 ||
-        bleu < 0 || bleu > 255)
+    for (const std::string& paire : paires)
     {
-        throw std::out_of_range(
-            "Les composantes RGB doivent etre entre 0 et 255."
-        );
+        if (paire.size() != 2)
+        {
+            throw std::invalid_argument(
+                "Une paire doit contenir deux chromosomes."
+            );
+        }
+
+        for (char chromosome : paire)
+        {
+            if (chromosome < 'A' || chromosome > 'L')
+            {
+                throw std::invalid_argument(
+                    "Chromosome invalide : lettres A a L uniquement."
+                );
+            }
+        }
     }
 
-    rouge_ = rouge;
-    vert_ = vert;
-    bleu_ = bleu;
+    paires_ = paires;
 }
 
 // ==========================================
 // ADDITION DE DEUX CELLULES
 // ==========================================
 
-ColorCell ColorCell::operator+(
-    const ColorCell& autre
+ChromoCell ChromoCell::operator+(
+    const ChromoCell& autre
 ) const
 {
-    return ColorCell(
-        (rouge_ + autre.rouge_) / 2,
-        (vert_ + autre.vert_) / 2,
-        (bleu_ + autre.bleu_) / 2
-    );
+    std::array<std::string, 4> resultat;
+
+    for (std::size_t i = 0; i < 4; ++i)
+    {
+        resultat[i] =
+            std::string(1, paires_[i][0]) +
+            autre.paires_[i][1];
+    }
+
+    ChromoCell nouvelleCellule;
+    nouvelleCellule.setPaires(resultat);
+
+    return nouvelleCellule;
 }
 
 // ==========================================
@@ -76,20 +92,19 @@ ColorCell ColorCell::operator+(
 
 std::istream& operator>>(
     std::istream& entree,
-    ColorCell& cellule
+    ChromoCell& cellule
 )
 {
-    int rouge;
-    int vert;
-    int bleu;
+    std::array<std::string, 4> paires;
 
-    if (entree >> rouge >> vert >> bleu)
+    if (entree >> paires[0] >> paires[1]
+               >> paires[2] >> paires[3])
     {
         try
         {
-            cellule.setRGB(rouge, vert, bleu);
+            cellule.setPaires(paires);
         }
-        catch (const std::out_of_range&)
+        catch (const std::invalid_argument&)
         {
             entree.setstate(std::ios::failbit);
         }
@@ -104,12 +119,18 @@ std::istream& operator>>(
 
 std::ostream& operator<<(
     std::ostream& sortie,
-    const ColorCell& cellule
+    const ChromoCell& cellule
 )
 {
-    sortie << cellule.rouge_ << " "
-           << cellule.vert_ << " "
-           << cellule.bleu_;
+    for (std::size_t i = 0; i < 4; ++i)
+    {
+        if (i > 0)
+        {
+            sortie << " ";
+        }
+
+        sortie << cellule.paires_[i];
+    }
 
     return sortie;
 }
