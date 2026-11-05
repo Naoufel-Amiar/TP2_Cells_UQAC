@@ -2,4 +2,3 @@ CHROMOCELL 3
 1 / / AB CD EF GH
 2 / / IJ KL AC BD
 3 1 2 AJ CL EC GD
-  

@@ -8,6 +8,6 @@ A 255 0 0
 $ 6
 ? 5 6
 ? 1 2
-S data/POPULATION_TEST.txt
-O data/POPULATION_TEST.txt
+S ../data/POPULATION_TEST.txt
+O ../data/POPULATION_TEST.txt
 $ 6
