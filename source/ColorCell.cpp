@@ -1,10 +1,6 @@
 #include "ColorCell.h"
 #include <stdexcept>
 
-// ==========================================
-// CONSTRUCTEURS
-// ==========================================
-
 ColorCell::ColorCell()
     : rouge_(0), vert_(0), bleu_(0)
 {
@@ -15,10 +11,6 @@ ColorCell::ColorCell(int rouge, int vert, int bleu)
 {
     setRGB(rouge, vert, bleu);
 }
-
-// ==========================================
-// ACCESSEURS
-// ==========================================
 
 int ColorCell::getRouge() const
 {
@@ -35,10 +27,6 @@ int ColorCell::getBleu() const
     return bleu_;
 }
 
-// ==========================================
-// MODIFICATION ET VALIDATION
-// ==========================================
-
 void ColorCell::setRGB(int rouge, int vert, int bleu)
 {
     if (rouge < 0 || rouge > 255 ||
@@ -46,8 +34,7 @@ void ColorCell::setRGB(int rouge, int vert, int bleu)
         bleu < 0 || bleu > 255)
     {
         throw std::out_of_range(
-            "Les composantes RGB doivent etre entre 0 et 255."
-        );
+            "Les composantes RGB doivent etre entre 0 et 255.");
     }
 
     rouge_ = rouge;
@@ -55,13 +42,7 @@ void ColorCell::setRGB(int rouge, int vert, int bleu)
     bleu_ = bleu;
 }
 
-// ==========================================
-// ADDITION DE DEUX CELLULES
-// ==========================================
-
-ColorCell ColorCell::operator+(
-    const ColorCell& autre
-) const
+ColorCell ColorCell::operator+(const ColorCell& autre) const
 {
     return ColorCell(
         (rouge_ + autre.rouge_) / 2,
@@ -70,18 +51,9 @@ ColorCell ColorCell::operator+(
     );
 }
 
-// ==========================================
-// LECTURE TEXTUELLE
-// ==========================================
-
-std::istream& operator>>(
-    std::istream& entree,
-    ColorCell& cellule
-)
+std::istream& operator>>(std::istream& entree, ColorCell& cellule)
 {
-    int rouge;
-    int vert;
-    int bleu;
+    int rouge, vert, bleu;
 
     if (entree >> rouge >> vert >> bleu)
     {
@@ -98,14 +70,7 @@ std::istream& operator>>(
     return entree;
 }
 
-// ==========================================
-// AFFICHAGE TEXTUEL
-// ==========================================
-
-std::ostream& operator<<(
-    std::ostream& sortie,
-    const ColorCell& cellule
-)
+std::ostream& operator<<(std::ostream& sortie, const ColorCell& cellule)
 {
     sortie << cellule.rouge_ << " "
            << cellule.vert_ << " "

@@ -1,6 +1,4 @@
-
 #include <iostream>
-
 #include "ColorCell.h"
 #include "ChromoCell.h"
 #include "Individu.h"

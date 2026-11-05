@@ -7,5 +7,7 @@ A 255 0 0
 + 4 3
 $ 6
 ? 5 6
-S data/POPULATION_COLORCELL.txt
-  
+? 1 2
+S data/POPULATION_TEST.txt
+O data/POPULATION_TEST.txt
+$ 6

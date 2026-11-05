@@ -4,14 +4,13 @@
 #include <memory>
 #include <string>
 
-#include "ColorCell.h"
 #include "ChromoCell.h"
+#include "ColorCell.h"
 #include "Population.h"
 
 class TransTerminal
 {
 private:
-    // Type de cellule actuellement selectionne
     enum class TypeCourant
     {
         Aucun,
@@ -21,20 +20,16 @@ private:
 
     TypeCourant typeCourant_ = TypeCourant::Aucun;
 
-    // Populations des deux types
     std::unique_ptr<Population<ColorCell>>
         populationColor_;
 
     std::unique_ptr<Population<ChromoCell>>
         populationChromo_;
 
-    // Initialisation d'une population
     void creerPopulation(TypeCourant type);
 
-    // Traitement d'une transaction
     void traiterLigne(const std::string& ligne);
 
-    // Commandes du fichier TRANSACTIONS
     void commandeCreer(const std::string& type);
 
     void commandeAjouter(const std::string& valeurs);
@@ -52,11 +47,9 @@ private:
     void commandeAfficher(int id);
 
 public:
-    // Constructeur et destructeur
     TransTerminal() = default;
     ~TransTerminal() = default;
 
-    // Lecture et execution des transactions
     void executer(
         const std::string& fichierTransactions
     );
