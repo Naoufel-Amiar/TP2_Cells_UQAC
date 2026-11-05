@@ -1,0 +1,13 @@
+C COLORCELL
+A 0 0 255
+A 0 255 0
+A 255 0 0
++ 1 2
++ 4 3
+$ 5
+- 1
+$ 5
+? 2 4
+S ../data/TEST_SUPPRESSION_SAVE.txt
+O ../data/TEST_SUPPRESSION_SAVE.txt
+$ 5
