@@ -54,15 +54,44 @@ HorlogeCell HorlogeCell::operator+(const HorlogeCell& autre) const
     int M2 = autre.getHeures()*60 + autre.getMinutes();
     int M3 = 0;
     int recul = 0;
-    int avance = (M1 - M2 + 1440) % 1440;
+    int avance = (M2 - M1 + 1440) % 1440;
 
     if (avance <= 720){
-        M3 = (M1 + avance) / 2;
+        M3 = M1 + (avance / 2);
     }
     else{
         recul = 1440 - avance;
-        M3 = M1 - recul / 2;
+        M3 = M1 - (recul / 2);
     }
     M3 = (M3 + 1440) % 1440;
     return HorlogeCell(M3 / 60, M3 % 60);
+}
+
+std::istream& operator>>(std::istream& entree, HorlogeCell& cellule)
+{
+    int heures;
+    char separateur;
+    int minutes;
+
+    if (entree >> heures >> separateur >> minutes && separateur == ':'){
+        try{
+            cellule.setHeures(heures);
+            cellule.setMinutes(minutes);
+        }
+        catch (const std::out_of_range& e){
+            entree.setstate(std::ios::failbit);
+        }
+    }
+    else {
+        entree.setstate(std::ios::failbit);
+    }
+    return entree;
+    
+}
+
+std ::ostream& operator<<(std::ostream& sortie, const HorlogeCell& cellule)
+{
+    sortie << cellule.heures_ << ":"
+     << cellule.minutes_ ;
+    return sortie;
 }

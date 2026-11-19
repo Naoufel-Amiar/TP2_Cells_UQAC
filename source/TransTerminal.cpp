@@ -52,6 +52,7 @@ void TransTerminal::creerPopulation(TypeCourant type)
 {
     populationColor_.reset();
     populationChromo_.reset();
+    populationHorloge_.reset();
 
     typeCourant_ = TypeCourant::Aucun;
 
@@ -64,6 +65,11 @@ void TransTerminal::creerPopulation(TypeCourant type)
     {
         populationChromo_ =
             std::make_unique<Population<ChromoCell>>();
+    }
+    else if (type == TypeCourant::HorlogeCell)
+    {
+        populationHorloge_ =
+            std::make_unique<Population<HorlogeCell>>();
     }
     else
     {
@@ -88,6 +94,10 @@ void TransTerminal::commandeCreer(const std::string& type)
     else if (type == "CHROMOCELL")
     {
         creerPopulation(TypeCourant::ChromoCell);
+    }
+    else if (type == "HORLOGECELL")
+    {
+        creerPopulation(TypeCourant::HorlogeCell);
     }
     else
     {
@@ -122,6 +132,15 @@ void TransTerminal::commandeAjouter(
             lireValeur<ChromoCell>(valeurs);
 
         int id = populationChromo_->ajouter(cellule);
+
+        std::cout << id << " : " << cellule << '\n';
+    }
+    else if (typeCourant_ == TypeCourant::HorlogeCell)
+    {
+        HorlogeCell cellule =
+            lireValeur<HorlogeCell>(valeurs);
+
+        int id = populationHorloge_->ajouter(cellule);
 
         std::cout << id << " : " << cellule << '\n';
     }
@@ -188,6 +207,19 @@ void TransTerminal::commandeOuvrir(
 
         typeCourant_ = TypeCourant::ChromoCell;
     }
+    else if (type == "HORLOGECELL")
+    {
+        auto nouvelle =
+            std::make_unique<Population<HorlogeCell>>();
+
+        nouvelle->charger(entree, nombre);
+
+        populationHorloge_ = std::move(nouvelle);
+        populationColor_.reset();
+        populationChromo_.reset();
+
+        typeCourant_ = TypeCourant::HorlogeCell;
+    }
     else
     {
         throw std::invalid_argument(
@@ -228,6 +260,12 @@ void TransTerminal::commandeSauvegarder(
     {
         populationColor_->sauvegarder(
             sortie, "COLORCELL"
+        );
+    }
+    else if (typeCourant_ == TypeCourant::HorlogeCell)
+    {
+        populationHorloge_->sauvegarder(
+            sortie, "HORLOGECELL"
         );
     }
     else
@@ -273,6 +311,14 @@ void TransTerminal::commandeCombiner(int id1, int id2)
                   << populationChromo_->trouver(id)->getValeur()
                   << " (" << id1 << " + " << id2 << ")\n";
     }
+    else if (typeCourant_ == TypeCourant::HorlogeCell)
+    {
+        int id = populationHorloge_->combiner(id1, id2);
+
+        std::cout << id << " : "
+                  << populationHorloge_->trouver(id)->getValeur()
+                  << " (" << id1 << " + " << id2 << ")\n";
+    }
     else
     {
         throw std::runtime_error(
@@ -296,6 +342,10 @@ void TransTerminal::commandeSupprimer(int id)
     else if (typeCourant_ == TypeCourant::ChromoCell)
     {
         supprime = populationChromo_->supprimer(id);
+    }
+    else if (typeCourant_ == TypeCourant::HorlogeCell)
+    {
+        supprime = populationHorloge_->supprimer(id);
     }
     else
     {
@@ -336,6 +386,13 @@ void TransTerminal::commandeAncetre(int id1, int id2)
                 id1, id2
             );
     }
+    else if (typeCourant_ == TypeCourant::HorlogeCell)
+    {
+        ancetre =
+            populationHorloge_->rechercherAncetreCommun(
+                id1, id2
+            );
+    }
     else
     {
         throw std::runtime_error(
@@ -361,6 +418,13 @@ void TransTerminal::commandeAncetre(int id1, int id2)
     {
         std::cout
             << populationColor_
+                   ->trouver(ancetre->id)
+                   ->getValeur();
+    }
+    else if (typeCourant_ == TypeCourant::HorlogeCell)
+    {
+        std::cout
+            << populationHorloge_
                    ->trouver(ancetre->id)
                    ->getValeur();
     }
@@ -402,6 +466,12 @@ void TransTerminal::commandeAfficher(int id)
     else if (typeCourant_ == TypeCourant::ChromoCell)
     {
         populationChromo_->afficherArbre(
+            id, std::cout
+        );
+    }
+    else if (typeCourant_ == TypeCourant::HorlogeCell)
+    {
+        populationHorloge_->afficherArbre(
             id, std::cout
         );
     }

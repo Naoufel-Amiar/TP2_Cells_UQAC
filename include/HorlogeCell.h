@@ -1,6 +1,8 @@
 #ifndef HORLOGECELL_H
 #define HORLOGECELL_H
 
+#include <iostream>
+
 class HorlogeCell
 {
 private:
@@ -18,6 +20,11 @@ public:
     void setMinutes(int minutes);
 
     HorlogeCell operator+(const HorlogeCell& autre) const;
+
+    friend std::istream& operator>>(
+        std::istream& entree, HorlogeCell& cellule);
+    friend std::ostream& operator<<(
+        std::ostream& sortie, const HorlogeCell& cellule);
 };
 
 #endif
