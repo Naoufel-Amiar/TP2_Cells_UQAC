@@ -16,6 +16,6 @@ public:
 
     void setHeures(int heures);
     void setMinutes(int minutes);
-}
+};
 
 #endif
