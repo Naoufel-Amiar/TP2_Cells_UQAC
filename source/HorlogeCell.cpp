@@ -1,4 +1,5 @@
 #include "HorlogeCell.h"
+#include <stdexcept>
 
 
 HorlogeCell::HorlogeCell()
