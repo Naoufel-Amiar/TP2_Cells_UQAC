@@ -41,3 +41,21 @@ void HorlogeCell::setMinutes(int minutes)
     minutes_ = minutes;
 }
 
+HorlogeCell HorlogeCell::operator+(const HorlogeCell& C1, const HorlogeCell& C2) const
+{
+    int M1 = C1.getHeures()*60 + C1.getMinutes();
+    int M2 = C2.getHeures()*60 + C2.getMinutes();
+    int M3 = 0;
+    int recul = 0;
+    int avance = (M1 - M2 + 1440) % 1440;
+
+    if (avance <= 720){
+        M3 = (M1 + avance) / 2;
+    }
+    else{
+        recul = 1440 - avance;
+        M3 = M1 - recul / 2;
+    }
+    M3 = (M3 + 1440) % 1440;
+    return HorlogeCell(M3 / 60, M3 % 60);
+}
