@@ -15,7 +15,8 @@ private:
     {
         Aucun,
         ColorCell,
-        ChromoCell
+        ChromoCell,
+        HorlogeCell
     };
 
     TypeCourant typeCourant_ = TypeCourant::Aucun;
