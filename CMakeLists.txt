@@ -12,6 +12,7 @@ add_executable(TP2_Cells
     source/ColorCell.cpp
     source/ChromoCell.cpp
     source/TransTerminal.cpp
+    source/HorlogeCell.cpp
 )
 
 target_include_directories(TP2_Cells PRIVATE
