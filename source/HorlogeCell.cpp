@@ -9,6 +9,13 @@ HorlogeCell::HorlogeCell()
     setMinutes(0);
 }
 
+HorlogeCell::HorlogeCell(int heures, int minutes)
+    : heures_(0), minutes_(0)
+{
+    setHeures(heures);
+    setMinutes(minutes);
+}
+
 int HorlogeCell::getHeures() const
 {
     return heures_;
@@ -41,10 +48,10 @@ void HorlogeCell::setMinutes(int minutes)
     minutes_ = minutes;
 }
 
-HorlogeCell HorlogeCell::operator+(const HorlogeCell& C1, const HorlogeCell& C2)
+HorlogeCell HorlogeCell::operator+(const HorlogeCell& autre) const
 {
-    int M1 = C1.getHeures()*60 + C1.getMinutes();
-    int M2 = C2.getHeures()*60 + C2.getMinutes();
+    int M1 = getHeures()*60 + getMinutes();
+    int M2 = autre.getHeures()*60 + autre.getMinutes();
     int M3 = 0;
     int recul = 0;
     int avance = (M1 - M2 + 1440) % 1440;
