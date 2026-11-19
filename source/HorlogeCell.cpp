@@ -41,7 +41,7 @@ void HorlogeCell::setMinutes(int minutes)
     minutes_ = minutes;
 }
 
-HorlogeCell HorlogeCell::operator+(const HorlogeCell& C1, const HorlogeCell& C2) const
+HorlogeCell HorlogeCell::operator+(const HorlogeCell& C1, const HorlogeCell& C2)
 {
     int M1 = C1.getHeures()*60 + C1.getMinutes();
     int M2 = C2.getHeures()*60 + C2.getMinutes();

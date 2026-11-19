@@ -17,7 +17,7 @@ public:
     void setHeures(int heures);
     void setMinutes(int minutes);
 
-    HorlogeCell operator+(const HorlogeCell& C1, const HorlogeCell& C2) const;
+    HorlogeCell operator+(const HorlogeCell& C1, const HorlogeCell& C2);
 };
 
 #endif
