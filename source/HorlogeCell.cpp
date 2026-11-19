@@ -1,5 +1,7 @@
 #include "HorlogeCell.h"
 #include <stdexcept>
+#include <iomanip>
+
 
 
 HorlogeCell::HorlogeCell()
@@ -89,9 +91,14 @@ std::istream& operator>>(std::istream& entree, HorlogeCell& cellule)
     
 }
 
-std ::ostream& operator<<(std::ostream& sortie, const HorlogeCell& cellule)
+std::ostream& operator<<(std::ostream& sortie, const HorlogeCell& cellule)
 {
-    sortie << cellule.heures_ << ":"
-     << cellule.minutes_ ;
+    sortie << std::setfill('0')
+           << std::setw(2) << cellule.heures_
+           << ":"
+           << std::setw(2) << cellule.minutes_;
+
+    sortie << std::setfill(' ');
+
     return sortie;
 }
