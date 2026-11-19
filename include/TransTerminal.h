@@ -7,6 +7,7 @@
 #include "ChromoCell.h"
 #include "ColorCell.h"
 #include "Population.h"
+#include "HorlogeCell.h"
 
 class TransTerminal
 {
@@ -26,6 +27,9 @@ private:
 
     std::unique_ptr<Population<ChromoCell>>
         populationChromo_;
+
+    std::unique_ptr<Population<HorlogeCell>>
+        populationHorloge_;
 
     void creerPopulation(TypeCourant type);
 
